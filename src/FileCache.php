@@ -8,9 +8,12 @@ class FileCache implements CacheInterface
 
     private $cacheDir = '';
 
-    public function __construct($cacheDir = '')
+    private $ttl;
+
+    public function __construct($cacheDir = '', $ttl = null)
     {
         ('' === $cacheDir) ? $this->cacheDir = __DIR__ . '/../cache' : $this->cacheDir = $cacheDir;
+        $this->ttl = $ttl;
 
     }
 
@@ -26,6 +29,10 @@ class FileCache implements CacheInterface
     public function set($key, $value, $ttl = null)
     {
         $filename = $this->cacheDir . '/' . $key;
+
+        if (null === $ttl) {
+            $ttl = $this->ttl;
+        }
         if (file_exists($filename)) {
             $filemtime = filemtime($filename);
             $now = time();
@@ -76,10 +83,21 @@ class FileCache implements CacheInterface
     public function has($key)
     {
         $filename = $this->cacheDir . '/' . $key;
-        $has = false;
         if (file_exists($filename)) {
-            $has = true;
+
+            if (null == $this->ttl) {
+                return true;
+            }
+
+            $now = time();
+            $filemtime = filemtime($filename);
+
+            if ($now - $filemtime < $this->ttl) {
+                return true;
+            }
+
+            return false;
         }
-        return $has;
+        return false;
     }
 }
