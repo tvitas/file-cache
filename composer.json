@@ -1,0 +1,24 @@
+{
+    "name": "tvitas/file-cache",
+    "description": "Naive plain file cache",
+    "type": "package",
+    "license": "Public Domain",
+    "authors": [
+        {
+            "name": "tvitas",
+            "email": "vitalijus.trainys@gmail.com"
+        }
+    ],
+  
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0",
+        "psr/simple-cache": "^1.0@dev"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "tvitas\\FileCache\\": "src/"
+        }
+    }
+}

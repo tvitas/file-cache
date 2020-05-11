@@ -1,0 +1,6 @@
+composer.lock
+test.php
+cache
+cache/*
+vendor
+vendor/*
