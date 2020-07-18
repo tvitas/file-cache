@@ -36,8 +36,10 @@ class FileCache implements CacheInterface
         if (file_exists($filename)) {
             $filemtime = filemtime($filename);
             $now = time();
-            if (null !== $ttl and ($now - $filemtime < $ttl)) {
+            if ($now - $filemtime < $ttl) {
                 return true;
+            } else {
+                $this->delete($key);
             }
         }
         return (false === file_put_contents($filename, serialize($value))) ? false : true;
