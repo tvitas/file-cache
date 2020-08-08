@@ -49,7 +49,7 @@ class FileCache implements CacheInterface
     {
         $filename = $this->cacheDir . '/' . $key;
         if (file_exists($filename)) {
-            unlink($filename);
+            return is_file($filename) ? unlink($filename) : null;
         }
     }
 
